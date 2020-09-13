@@ -2,18 +2,16 @@ from smbus2 import SMBus, i2c_msg
 import time
 import math
 
+#Need at least 10ms, extra time added for safety
 WRITE_SLEEP = 0.05
 
 base_address = 0xA #Control Code is 1010
-start_block = 0x0 #There are 8 256 Word Blocks
+start_block = 0x0 #There are 4/8 256 Word Blocks
 address = (base_address << 3) + start_block
-start_address = 0x50 #Should be start address at block 0
 
-FULL_LED_LINE = 0xF7
-LETTER = 5 #bytes Max 18 characters
-num_screens = [0] #Number of screens (Max unknown) first byte
-screen_bytes = [LETTER,0] #2nd number of chars*5, 3rd line some sort of control ex. controls animation?
-
+#num_screens = at least 1, Max Number of screens unknown, first byte
+#LETTER = 5 bytes, Max 18 characters
+#Turns on entire line, FULL_LED_LINE = 0xF7, 0x08 does not matter
 #Screen Control Byte
 #bit 0 - Erases from the back
 #bit 1 - Erases from the front
