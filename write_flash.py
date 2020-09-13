@@ -76,7 +76,6 @@ def build_screen(screen):
 	for char in screen:
 		char = char.upper()
 		leds.insert(0,characters[char])
-		# leds = characters[char] + leds
 	return leds
  
 def get_control_byte(len_screen):
@@ -114,11 +113,7 @@ def reverseBits(num,bitSize):
 
 for key in characters:
 	for i in range(len(characters[key])):
-		# print(characters[key])
 		characters[key][i] = reverseBits(invertBits(characters[key][i]),8)
-		# print(characters[key])
-
-
 
 screens =	[
 				"Im Ur biggest fan",
@@ -128,8 +123,8 @@ screens =	[
 				"An absolute Unit",
 				"Poop"
 			]
-index = 0
 
+index = 0
 with SMBus(1) as bus:
 	msg = i2c_msg.write(address, [index,len(screens)])
 	bus.i2c_rdwr(msg)
@@ -138,7 +133,8 @@ with SMBus(1) as bus:
 
 	for screen in screens:
 		num_chars = len(screen)
-		msg = i2c_msg.write(address, [index,num_chars*5,get_control_byte(num_chars)]) #Set num chars and control
+        #Set num chars and control
+		msg = i2c_msg.write(address, [index,num_chars*5,get_control_byte(num_chars)])
 		bus.i2c_rdwr(msg)
 		index += 2
 		time.sleep(WRITE_SLEEP)
